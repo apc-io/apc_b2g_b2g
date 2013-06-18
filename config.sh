@@ -30,6 +30,14 @@ case `uname` in
 	exit -1
 esac
 
+# to be used with custom repo :) for development purpose
+if [ $1 = "wmid" ]
+then
+	GITREPO="https://trungnt_hut@bitbucket.org/trungnt_hut/apc_8950_manifests.git"
+	BRANCH="B2G"
+fi
+# end
+
 GITREPO=${GITREPO:-"git://github.com/mozilla-b2g/b2g-manifest"}
 BRANCH=${BRANCH:-v1-train}
 
@@ -124,6 +132,12 @@ case "$1" in
 	repo_sync emulator
 	;;
 
+"wmid")
+	echo DEVICE=wmid >> .tmp-config &&
+	echo LUNCH=full_wmid-userdebug >> .tmp-config &&
+	repo_sync $1
+	;;
+
 *)
 	echo "Usage: $0 [-cdflnq] (device name)"
 	echo "Flags are passed through to |./repo sync|."
@@ -144,6 +158,7 @@ case "$1" in
 	echo - pandaboard
 	echo - emulator
 	echo - emulator-x86
+	echo - wmid
 	exit -1
 	;;
 esac
