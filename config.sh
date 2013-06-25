@@ -33,7 +33,7 @@ esac
 # to be used with custom repo :) for development purpose
 if [ $1 = "wmid" ]
 then
-	GITREPO="https://trungnt_hut@bitbucket.org/trungnt_hut/apc_8950_manifests.git"
+	GITREPO="git@bitbucket.org:trungnt_hut/apc_8950_manifests.git"
 	BRANCH="B2G"
 fi
 # end
