@@ -52,12 +52,42 @@ function configure_device() {
     return $?
 }
 
+function prepare_wmid_env() {
+	if [[ "$DEVICE" = "wmid" ]]
+	then
+		if [[ -z "$BUILD_VERSION_TAGS" ]]
+		then
+			if [ -f version ]
+			then
+				export BUILD_VERSION_TAGS=$(cat version)
+			fi
+		fi
+	fi
+}
+
+function prepare_wmid_package() {
+	DEVICE=wmid
+	PRODUCT_OUT=out/target/product/$DEVICE
+	ROOTFS_PREFIX=rootfs.b2g
+	if [ -f ${PRODUCT_OUT}/system.img ] ; then
+		echo "Creating rootfs tarball .."
+		rm -rf ${PRODUCT_OUT}/${ROOTFS_PREFIX}_*.tgz
+		DATE_TIME=`date +"%y%m%d.%H%M"`
+		tar -zcf ${PRODUCT_OUT}/${ROOTFS_PREFIX}_${DATE_TIME}.tgz -C ${PRODUCT_OUT}/system .
+		echo "Done. Please copy boot.img, recovery.img and ${ROOTFS_PREFIX}_${DATE_TIME}.tgz to SDCARD and flash to the device."
+	else
+		echo "Build failed."
+	fi
+	exit 0
+}
+
 unset CDPATH
 . setup.sh &&
 if [ -f patches/patch.sh ] ; then
     . patches/patch.sh
 fi &&
 configure_device &&
+prepare_wmid_env &&
 time nice -n19 make $MAKE_FLAGS $@
 
 ret=$?
@@ -73,11 +103,16 @@ else
 		echo Run \|./run-emulator.sh\| to start the emulator
 		exit 0
 	fi
+
 	case "$1" in
 	"gecko")
 		echo Run \|./flash.sh gecko\| to update gecko
 		;;
 	*)
+		if [ $DEVICE = "wmid" ] ; then
+			prepare_wmid_package
+			exit 0
+		fi
 		echo Run \|./flash.sh\| to flash all partitions of your device
 		;;
 	esac
