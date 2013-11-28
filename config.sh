@@ -146,8 +146,8 @@ case "$1" in
 	echo DEVICE=wmid >> .tmp-config &&
 	echo LUNCH=full_wmid-userdebug >> .tmp-config &&
 	echo "export MOZILLA_OFFICIAL=1" >> .tmp-config &&
-	echo GAIA_DISTRIBUTION_DIR=distribution_tablet >> .tmp-config &&
-	echo GAIA_DEV_PIXELS_PER_PX=2 >> .tmp-config &&
+	echo "export GAIA_DISTRIBUTION_DIR=distribution_tablet" >> .tmp-config &&
+	echo "export GAIA_DEV_PIXELS_PER_PX=2" >> .tmp-config &&
 	repo_sync $1
 	;;
 
