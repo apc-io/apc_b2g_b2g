@@ -108,6 +108,9 @@ else
 	"gecko")
 		echo Run \|./flash.sh gecko\| to update gecko
 		;;
+	"otapackage")
+		echo Done.
+		;;
 	*)
 		if [ $DEVICE = "wmid" ] ; then
 			prepare_wmid_package
