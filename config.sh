@@ -30,6 +30,14 @@ case `uname` in
 	exit -1
 esac
 
+# to be used with custom repo :) for development purpose
+if [ $1 = "vixen" ]
+then
+	GITREPO="git@github.com:apc-io/Vixen_manifests.git"
+	BRANCH="nmv-dev"
+fi
+# end
+
 GITREPO=${GITREPO:-"git://github.com/mozilla-b2g/b2g-manifest"}
 BRANCH=${BRANCH:-master}
 
@@ -173,6 +181,15 @@ case "$1" in
 	repo_sync $1
 	;;
 
+"vixen")
+	echo DEVICE=vixen >> .tmp-config &&
+	echo LUNCH=vixen-userdebug >> .tmp-config &&
+	echo "export MOZILLA_OFFICIAL=1" >> .tmp-config &&
+	echo "export GAIA_DISTRIBUTION_DIR=distribution_tablet" >> .tmp-config &&
+	echo "export GAIA_DEV_PIXELS_PER_PX=2" >> .tmp-config &&
+	repo_sync $1
+	;;
+
 *)
 	echo "Usage: $0 [-cdflnq] (device name)"
 	echo "Flags are passed through to |./repo sync|."
@@ -208,6 +225,7 @@ case "$1" in
 	echo - emulator-x86
 	echo - emulator-x86-jb
 	echo - emulator-x86-kk
+	echo - vixen
 	exit -1
 	;;
 esac
