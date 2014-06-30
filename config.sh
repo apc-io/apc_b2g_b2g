@@ -34,7 +34,7 @@ esac
 if [ $1 = "vixen" ]
 then
 	GITREPO="git@github.com:apc-io/Vixen_manifests.git"
-	BRANCH="nmv-dev"
+	BRANCH="rock2-nmv-dev"
 fi
 # end
 
