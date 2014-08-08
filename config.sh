@@ -34,7 +34,7 @@ esac
 if [ $1 = "wmid" ]
 then
 	GITREPO="git@github.com:apc-io/apc_8950_manifests.git"
-	BRANCH="B2G"
+	BRANCH="ethernet_staticIP"
 fi
 # end
 
